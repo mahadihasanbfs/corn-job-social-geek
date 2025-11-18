@@ -1,14 +1,17 @@
 name: Ping SocialGeek Cron
 
 on:
-  schedule:
-    - cron: "*/2 * * * *"   # run every 2 minutes
-  workflow_dispatch:
+  workflow_dispatch:  # manually trigger, or you can combine with a schedule every minute
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Hit Cron URL
+      - name: Hit URL every 10 seconds
         run: |
-          curl -s "https://crm.socialgeekbd.com/cron/index"
+          for i in {1..6}  # 6 times = 1 minute total
+          do
+            curl -s "https://crm.socialgeekbd.com/cron/index"
+            echo "Ping $i at $(date)"
+            sleep 10
+          done
